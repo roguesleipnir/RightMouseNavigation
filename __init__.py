@@ -43,11 +43,12 @@ def register():
         for i in menumodes:
             for key in active_kc.keymaps[i].keymap_items:
                 if (
-                    # key.idname == "wm.call_menu"
-                    key.type == "RIGHTMOUSE"
+                    key.idname == "wm.call_menu"
+                    and key.type == "RIGHTMOUSE"
                     and key.active
                 ):
-                    key.active = False
+                    key.active = True
+                    key.value = "CLICK"
 
         # These Modes call panels instead of menus
         # "Vertex Paint", "Weight Paint", "Image Paint", "Sculpt"
@@ -59,6 +60,7 @@ def register():
                     and key.active
                 ):
                     key.active = False
+                    key.value = "CLICK"
 
         # Changing the Walk Modal Map
         for key in active_kc.keymaps["View3D Walk Modal"].keymap_items:
@@ -99,6 +101,7 @@ def unregister():
             for key in active_kc.keymaps[i].keymap_items:
                 if key.idname == "wm.call_menu" and key.type == "RIGHTMOUSE":
                     key.active = True
+                    key.value = "PRESS"
 
         # Reactivating panels
         # "Vertex Paint", "Weight Paint", "Image Paint", "Sculpt"
@@ -106,6 +109,7 @@ def unregister():
             for key in active_kc.keymaps[i].keymap_items:
                 if key.idname == "wm.call_panel" and key.type == "RIGHTMOUSE":
                     key.active = True
+                    key.value = "PRESS"
 
         # Changing the Walk Modal Map back
         for key in active_kc.keymaps["View3D Walk Modal"].keymap_items:
