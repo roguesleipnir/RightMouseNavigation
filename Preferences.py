@@ -19,6 +19,12 @@ def update_node_keymap(self, context):
             key.active = not key.active
 
 
+def update_mmb_to_rmb_keymap(self, context):
+    wm = context.window_manager
+    active_kc = wm.keyconfigs.active
+    print(self.rmb_pan_rotate)
+
+
 class RightMouseNavigationPreferences(AddonPreferences):
     bl_idname = __package__
 
@@ -44,6 +50,15 @@ class RightMouseNavigationPreferences(AddonPreferences):
         update=update_node_keymap,
     )
 
+    rmb_pan_rotate: BoolProperty(
+        name="Switch MMB and RMB Pan/Rotate",
+        description="Switches Pan/Rotate controls to Right Mouse Button. "
+        "Lasso controls are also switched to Middle Mouse Button",
+        default=False,
+        update=update_mmb_to_rmb_keymap,
+    )
+
+
     def draw(self, context):
         layout = self.layout
 
@@ -58,3 +73,8 @@ class RightMouseNavigationPreferences(AddonPreferences):
         box = row.box()
         box.label(text="Node Editor", icon="NODETREE")
         box.prop(self, "enable_for_node_editors")
+        
+        row = layout.row()
+        box = row.box()
+        box.label(text="Right Mouse Button Pan/Rotate", icon="VIEW3D")
+        box.prop(self, "rmb_pan_rotate")
