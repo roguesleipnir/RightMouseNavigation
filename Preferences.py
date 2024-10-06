@@ -19,9 +19,15 @@ def update_node_keymap(self, context):
             key.active = not key.active
 
 
-def update_mmb_to_rmb_keymap(self, context):
+def update_rebind_3dview_keymap(self, context):
     print(self.rmb_pan_rotate)
-    self.rebind_mmb_keys(context, self.rmb_pan_rotate)
+    self.rebind_3dview_keymap(context, self.rmb_pan_rotate)
+
+
+def update_rebind_switch_nav_rotate(self, context):
+    print(self.rmb_pan_rotate)
+    self.rebind_switch_nav_rotate(context, self.rmb_rotate_switch)
+
 
 class RightMouseNavigationPreferences(AddonPreferences):
     bl_idname = __package__
@@ -50,37 +56,25 @@ class RightMouseNavigationPreferences(AddonPreferences):
 
     rmb_pan_rotate: BoolProperty(
         name="Switch MMB and RMB Pan/Rotate",
-        description="Switches Pan/Rotate controls to Right Mouse Button. "
-        "Lasso controls are also switched to Middle Mouse Button",
+        description="Switches Pan/Rotate (and more) controls to Right Mouse Button.",
         default=False,
-        update=update_mmb_to_rmb_keymap,
+        update=update_rebind_3dview_keymap,
     )
 
+    rmb_rotate_switch: BoolProperty(
+        name="Switch RMB Nav and Rotate Alt Modifier",
+        description="Switches RMB Navigation and Pan/Rotate controls Alt modifier.",
+        default=False,
+        update=update_rebind_switch_nav_rotate,
+    )
 
-    def rebind_mmb_keys(self, context, isActive):
+    def rebind_3dview_keymap(self, context, isActive):
         wm = context.window_manager
         active_kc = wm.keyconfigs.active
         addon_kc = wm.keyconfigs.addon
         
-        menumodes = [
-            "Object Mode",
-            "Mesh",
-            "Curve",
-            "Armature",
-            "Metaball",
-            "Lattice",
-            "Font",
-            "Pose",
-        ]
-        panelmodes = ["Vertex Paint", "Weight Paint", "Image Paint", "Sculpt"]
-        
         if (isActive):
-            print("bind")
-            for key in addon_kc.keymaps["3D View"].keymap_items:
-                if (key.idname == "rmn.right_mouse_navigation"):
-                    key.type = "RIGHTMOUSE"
-                    key.value = "PRESS"
-                    key.alt = True
+            # print("bind")
             for key in active_kc.keymaps["3D View"].keymap_items:
                 if (key.idname == "view3d.cursor3d" and key.type == "RIGHTMOUSE"):
                     key.type = "MIDDLEMOUSE"
@@ -89,6 +83,7 @@ class RightMouseNavigationPreferences(AddonPreferences):
                 if (key.idname == "view3d.rotate" and key.type == "MIDDLEMOUSE"):
                     key.type = "RIGHTMOUSE"
                     key.value = "CLICK_DRAG"
+                    key.alt = True
                 if (key.idname == "view3d.move" and key.type == "MIDDLEMOUSE"):
                     key.type = "RIGHTMOUSE"
                     key.value = "CLICK_DRAG"
@@ -115,12 +110,7 @@ class RightMouseNavigationPreferences(AddonPreferences):
                     key.type = "MIDDLEMOUSE"
 
         else:
-            print("unbind")
-            for key in addon_kc.keymaps["3D View"].keymap_items:
-                if (key.idname == "rmn.right_mouse_navigation"):
-                    key.type = "RIGHTMOUSE"
-                    key.value = "PRESS"
-                    key.alt = False
+            # print("unbind")
             for key in active_kc.keymaps["3D View"].keymap_items:
                 if (key.idname == "view3d.cursor3d" and key.type == "MIDDLEMOUSE"):
                     key.type = "RIGHTMOUSE"
@@ -129,6 +119,7 @@ class RightMouseNavigationPreferences(AddonPreferences):
                 if (key.idname == "view3d.rotate" and key.type == "RIGHTMOUSE"):
                     key.type = "MIDDLEMOUSE"
                     key.value = "PRESS"
+                    key.alt = False
                 if (key.idname == "view3d.move" and key.type == "RIGHTMOUSE"):
                     key.type = "MIDDLEMOUSE"
                     key.value = "PRESS"
@@ -155,6 +146,38 @@ class RightMouseNavigationPreferences(AddonPreferences):
                     key.type = "RIGHTMOUSE"
 
 
+    def rebind_switch_nav_rotate(self, context, isActive):
+        wm = context.window_manager
+        active_kc = wm.keyconfigs.active
+        addon_kc = wm.keyconfigs.addon
+        
+        if (isActive):
+            # print("bind")
+            for key in addon_kc.keymaps["3D View"].keymap_items:
+                if (key.idname == "rmn.right_mouse_navigation"):
+                    key.type = "RIGHTMOUSE"
+                    key.value = "PRESS"
+                    key.alt = True
+            for key in active_kc.keymaps["3D View"].keymap_items:
+                if (key.idname == "view3d.rotate" and key.type == "RIGHTMOUSE"):
+                    key.type = "RIGHTMOUSE"
+                    key.value = "CLICK_DRAG"
+                    key.alt = False
+
+        else:
+            # print("unbind")
+            for key in addon_kc.keymaps["3D View"].keymap_items:
+                if (key.idname == "rmn.right_mouse_navigation"):
+                    key.type = "RIGHTMOUSE"
+                    key.value = "PRESS"
+                    key.alt = False
+            for key in active_kc.keymaps["3D View"].keymap_items:
+                if (key.idname == "view3d.rotate" and key.type == "RIGHTMOUSE"):
+                    key.type = "RIGHTMOUSE"
+                    key.value = "CLICK_DRAG"
+                    key.alt = True
+
+
     def draw(self, context):
         layout = self.layout
 
@@ -174,3 +197,4 @@ class RightMouseNavigationPreferences(AddonPreferences):
         box = row.box()
         box.label(text="Right Mouse Button Pan/Rotate", icon="VIEW3D")
         box.prop(self, "rmb_pan_rotate")
+        box.prop(self, "rmb_rotate_switch")

@@ -72,13 +72,15 @@ def register():
                 key.value = "RELEASE"
 
         addon_prefs = bpy.context.preferences.addons[__package__].preferences
-        addon_prefs.rebind_mmb_keys(bpy.context, addon_prefs.rmb_pan_rotate)
+        addon_prefs.rebind_3dview_keymap(bpy.context, addon_prefs.rmb_pan_rotate)
+        addon_prefs.rebind_switch_nav_rotate(bpy.context, addon_prefs.rmb_rotate_switch)
 
 
 def unregister():
     if not bpy.app.background:
         addon_prefs = bpy.context.preferences.addons[__package__].preferences
-        addon_prefs.rebind_mmb_keys(bpy.context, False)
+        addon_prefs.rebind_switch_nav_rotate(bpy.context, False)
+        addon_prefs.rebind_3dview_keymap(bpy.context, False)
 
         bpy.utils.unregister_class(RMN_OT_right_mouse_navigation)
         bpy.utils.unregister_class(RightMouseNavigationPreferences)
