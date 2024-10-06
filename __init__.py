@@ -71,6 +71,9 @@ def register():
                 key.type = "RIGHTMOUSE"
                 key.value = "RELEASE"
 
+        addon_prefs = bpy.context.preferences.addons[__package__].preferences
+        addon_prefs.rebind_mmb_keys(bpy.context, addon_prefs.rmb_pan_rotate)
+
 
 def unregister():
     if not bpy.app.background:
@@ -125,6 +128,8 @@ def unregister():
                 km.keymap_items.remove(kmi)
         addon_keymaps.clear()
 
+        addon_prefs = bpy.context.preferences.addons[__package__].preferences
+        addon_prefs.rebind_mmb_keys(bpy.context, False)
 
 if __name__ == "__main__":
     register()

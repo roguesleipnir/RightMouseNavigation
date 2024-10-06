@@ -20,10 +20,8 @@ def update_node_keymap(self, context):
 
 
 def update_mmb_to_rmb_keymap(self, context):
-    wm = context.window_manager
-    active_kc = wm.keyconfigs.active
     print(self.rmb_pan_rotate)
-
+    self.rebind_mmb_keys(context, self.rmb_pan_rotate)
 
 class RightMouseNavigationPreferences(AddonPreferences):
     bl_idname = __package__
@@ -57,6 +55,28 @@ class RightMouseNavigationPreferences(AddonPreferences):
         default=False,
         update=update_mmb_to_rmb_keymap,
     )
+
+
+    def rebind_mmb_keys(self, context, isActive):
+        wm = context.window_manager
+        active_kc = wm.keyconfigs.active
+        
+        menumodes = [
+            "Object Mode",
+            "Mesh",
+            "Curve",
+            "Armature",
+            "Metaball",
+            "Lattice",
+            "Font",
+            "Pose",
+        ]
+        panelmodes = ["Vertex Paint", "Weight Paint", "Image Paint", "Sculpt"]
+        
+        if (isActive):
+            print("bind")
+        else:
+            print("unbind")
 
 
     def draw(self, context):
