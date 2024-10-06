@@ -77,6 +77,9 @@ def register():
 
 def unregister():
     if not bpy.app.background:
+        addon_prefs = bpy.context.preferences.addons[__package__].preferences
+        addon_prefs.rebind_mmb_keys(bpy.context, False)
+
         bpy.utils.unregister_class(RMN_OT_right_mouse_navigation)
         bpy.utils.unregister_class(RightMouseNavigationPreferences)
 
@@ -127,9 +130,6 @@ def unregister():
             for kmi in km.keymap_items:
                 km.keymap_items.remove(kmi)
         addon_keymaps.clear()
-
-        addon_prefs = bpy.context.preferences.addons[__package__].preferences
-        addon_prefs.rebind_mmb_keys(bpy.context, False)
 
 if __name__ == "__main__":
     register()
