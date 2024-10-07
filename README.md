@@ -7,6 +7,8 @@ Maps Blender's Walk/Fly Navigation to the Right Mouse Button in addition to the 
 
 It also (optionally) maps the Node Editor's Pan View and Add/Search Node Menu to the Right Mouse Button.
 
+It also (optionally) can remap the Middle Mouse Button 3D View controls to Right Mouse Button to match other 3D software.
+
 [![Install and Use](https://img.youtube.com/vi/wIEsuaaS-Hw/0.jpg)](https://www.youtube.com/watch?v=wIEsuaaS-Hw)
 
 ## How to Install
@@ -46,6 +48,23 @@ You can adjust the threshold for when you navigate/open menus by adjusting the t
 Additionally, in the settings, you can change the cursor resetting behavior. By default, the cursor will snap back to the location where you initally clicked Right Mouse Button, after navigation exits. If you would rather the cursor stay in the center (where the navigation crosshair is) after navigation, you can disable the setting. 
 
 You can enable/disable Node Editor mode in the Preferences.
+
+### Switching default Middle Mouse 3D View Controls to Right Mouse
+To match other 3D software, the Middle Mouse 3D View camera controls can also be switched to use the Right Mouse instead:
+- 3D View Rotate (Alt RMB Drag)
+- 3D View Pan (Shift RMB Drag)
+- 3D View Zoom (Ctrl RMB Drag)
+- 3D View Dolly (Ctrl Shift RMB Drag)
+
+Some other controls that were switched to Middle Mouse:
+- Set 3D Cursor (Shift MMB Click)
+- Transform Translate (Shift MMB Drag)
+- Select Lasso (Ctrl MMB Drag)
+- Unselect Lasso (Ctrl Shift MMB Drag)
+
+There is also a setting to switch the activation of Right Mouse Navigation's Walk mode and the 3D View Rotate keymapping:
+- Right Mouse Navigation (Alt RMB Press)
+- 3D View Rotate (RMB Drag)
 
 ## Acknowledgements and Thanks
 
